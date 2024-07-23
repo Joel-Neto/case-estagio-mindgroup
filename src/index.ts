@@ -10,8 +10,8 @@ AppDataSource.initialize().then(() => {
   app.use(express.json());
 
   app.use("/transactions", transactionRoutes);
-  app.use("/routes", categoryRoutes);
   app.use("/users", userRoutes);
+  app.use("/routes", categoryRoutes);
 
   return app.listen(process.env.PORT);
 });

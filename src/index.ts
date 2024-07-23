@@ -11,7 +11,7 @@ AppDataSource.initialize().then(() => {
 
   app.use("/transactions", transactionRoutes);
   app.use("/users", userRoutes);
-  app.use("/routes", categoryRoutes);
+  app.use("/categories", categoryRoutes);
 
   return app.listen(process.env.PORT);
 });

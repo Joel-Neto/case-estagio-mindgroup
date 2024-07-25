@@ -12,10 +12,6 @@ export class UserController {
       const userExists = await userRepository.findOneBy({ email });
 
       if (userExists) {
-        // return res.status(400).json({
-        //   success: false,
-        //   message: "E-mail já cadastrado no sistema.",
-        // });
         return SendResponse.error(res, 400, "E-mail já cadastrado no sistema.");
       }
 
@@ -31,12 +27,6 @@ export class UserController {
 
       const { password: _, ...createdUser } = newUser;
 
-      // return res.status(201).json({
-      //   success: true,
-      //   message: "Usuário criado com sucesso.",
-      //   data: createdUser,
-      // });
-
       return SendResponse.success(
         res,
         201,
@@ -44,10 +34,6 @@ export class UserController {
         createdUser
       );
     } catch {
-      // return res.status(500).json({
-      //   success: false,
-      //   message: "Erro interno do servidor.",
-      // });
 
       return SendResponse.error(res, 500, "Erro interno do servidor.");
     }
@@ -60,20 +46,12 @@ export class UserController {
       const user = await userRepository.findOneBy({ email });
 
       if (!user) {
-        // return res.status(404).json({
-        //   success: false,
-        //   message: "E-mail ou senha inválidos.",
-        // });
         return SendResponse.error(res, 404, "E-mail ou senha inválidos.");
       }
 
       const verifyPass = await bcrypt.compare(password, user.password);
 
       if (!verifyPass) {
-        // return res.status(400).json({
-        //   success: false,
-        //   message: "E-mail ou senha inválidos.",
-        // });
         return SendResponse.error(res, 400, "E-mail ou senha inválidos.");
       }
 
@@ -83,24 +61,14 @@ export class UserController {
 
       const { password: _, ...userLogin } = user;
 
-      // return res.status(200).json({
-      //   success: true,
-      //   message: "Login efetuado com sucesso.",
-      //   data: userLogin,
-      //   token,
-      // });
-
-      return SendResponse.success(
+      return SendResponse.authLogin(
         res,
         200,
         "Login efetuado com sucesso.",
+        userLogin,
         token
       );
     } catch {
-      // return res.status(500).json({
-      //   success: false,
-      //   message: "Erro interno do servidor.",
-      // });
       return SendResponse.error(res, 500, "Erro interno de servidor.");
     }
   }
@@ -108,13 +76,8 @@ export class UserController {
   async getAllUsers(req: Request, res: Response) {
     try {
       const users = await userRepository.find();
-      // res.json(users);
       return SendResponse.success(res, 200, "Usuários do sistema.", users);
     } catch (error) {
-      // return res.status(500).json({
-      //   success: false,
-      //   message: "Erro ao buscar usuários.",
-      // });
       return SendResponse.error(res, 500, "Erro interno ao buscar usuários.");
     }
   }
@@ -124,10 +87,6 @@ export class UserController {
     try {
       const user = await userRepository.findOneBy({ id: Number(id) });
       if (!user) {
-        // return res.status(404).json({
-        //   success: false,
-        //   message: "Usuário não encontrado.",
-        // });
         return SendResponse.error(res, 404, "Usuário não encontrado.");
       }
       return SendResponse.success(
@@ -137,10 +96,6 @@ export class UserController {
         user
       );
     } catch (error) {
-      // res.status(500).json({
-      //   success: false,
-      //   message: "Erro interno do servidor.",
-      // });
       return SendResponse.error(res, 500, "Erro interno de servidor.");
     }
   }
@@ -151,10 +106,6 @@ export class UserController {
     try {
       const user = await userRepository.findOneBy({ id: Number(id) });
       if (!user) {
-        // return res.status(404).json({
-        //   success: false,
-        //   message: "Usuário não encontrado.",
-        // });
         return SendResponse.error(res, 404, "Usuário não encontrado.");
       }
 
@@ -163,11 +114,6 @@ export class UserController {
         ...req.body,
       });
 
-      // return res.status(200).json({
-      //   success: true,
-      //   message: "Usuário atualizado com sucesso.",
-      //   data: updatedUser,
-      // });
       return SendResponse.success(
         res,
         200,
@@ -175,10 +121,6 @@ export class UserController {
         updatedUser
       );
     } catch (error) {
-      // return res.status(500).json({
-      //   success: false,
-      //   message: "Erro interno do servidor.",
-      // });
       return SendResponse.error(res, 500, "Erro interno de servidor.");
     }
   }
@@ -189,25 +131,13 @@ export class UserController {
     try {
       const user = await userRepository.findOneBy({ id: Number(id) });
       if (!user) {
-        // return res.status(404).json({
-        //   success: false,
-        //   message: "Usuário não encontrado.",
-        // });
         return SendResponse.error(res, 404, "Usuário não encontrado.");
       }
 
       await userRepository.delete(id);
 
-      // return res.status(200).json({
-      //   success: true,
-      //   message: "Usuário excluído com sucesso.",
-      // });
       return SendResponse.success(res, 200, "Usuário excluído com sucesso.");
     } catch (error) {
-      // return res.status(500).json({
-      //   success: false,
-      //   message: "Erro interno do servidor.",
-      // });
       return SendResponse.error(res, 500, "Erro interno de servidor.");
     }
   }

@@ -14,7 +14,6 @@ export class CategoryController {
         categories
       );
     } catch (error) {
-      // res.status(500).json({ message: "Erro ao buscar categorias" });
       return SendResponse.error(res, 500, "Erro ao buscar categorias");
     }
   }
@@ -34,9 +33,6 @@ export class CategoryController {
         categories
       );
     } catch (error) {
-      // res
-      //   .status(500)
-      //   .json({ message: `Erro ao buscar categorias do tipo ${tipo}` });
       return SendResponse.error(
         res,
         500,

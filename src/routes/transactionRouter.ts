@@ -9,6 +9,7 @@ const transactionController = new TransactionController();
 routes.use(authMiddleware);
 routes.post("/", transactionController.createTransaction);
 routes.get("/all", transactionController.getAllTransactions);
+routes.get("/total", transactionController.getAllTransactionsAmount);
 routes.get("/transaction/:id", transactionController.getTransactionById);
 routes.put("/transaction/:id", transactionController.updateTransaction);
 routes.delete("/transaction/:id", transactionController.deleteTransaction);

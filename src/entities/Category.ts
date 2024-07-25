@@ -10,9 +10,8 @@ export class Category {
   nome: string;
 
   @Column()
-  tipo: "receita" | "despesa"; // Pode ser um enum se preferir
+  tipo: "receita" | "despesa"; 
 
-  // Relação com Transações
   @OneToMany(() => Transaction, (transaction) => transaction.category)
   transactions: Transaction[];
 }

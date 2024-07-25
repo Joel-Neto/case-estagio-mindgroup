@@ -51,7 +51,6 @@ export async function authMiddleware(
         message: "Token inválido.",
       });
     }
-    // outros tratamentos de erro, se necessário
     return res.status(500).json({
       success: false,
       message: "Erro interno do servidor.",

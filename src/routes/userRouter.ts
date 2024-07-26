@@ -1,11 +1,12 @@
 import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 import { authMiddleware } from "../middlewares/authMiddleware";
+import upload from "../utils/multer";
 
 const routes = Router();
 const userController = new UserController();
 
-routes.post("/", userController.create);
+routes.post("/", upload.single("file"), userController.create);
 routes.post("/login", userController.login);
 
 routes.use(authMiddleware);

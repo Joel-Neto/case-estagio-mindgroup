@@ -3,38 +3,53 @@ import { userRepository } from "../repositories/userRepository";
 import SendResponse from "../utils/SendResponse";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { promises as fsPromises } from 'fs';
 
 export class UserController {
   async create(req: Request, res: Response) {
     const { name, email, password } = req.body;
-
+    const imgPath = req.file?.filename;
+  
     try {
       const userExists = await userRepository.findOneBy({ email });
-
+  
       if (userExists) {
+        if (imgPath) {
+          await fsPromises.unlink(imgPath); // Remove o arquivo se o usuário já existir
+        }
         return SendResponse.error(res, 400, "E-mail já cadastrado no sistema.");
       }
-
+  
       const hashPassword = await bcrypt.hash(password, 10);
-
+  
       const newUser = userRepository.create({
         name,
         email,
         password: hashPassword,
+        img: imgPath,
       });
-
+      
       await userRepository.save(newUser);
-
+  
       const { password: _, ...createdUser } = newUser;
-
+  
       return SendResponse.success(
         res,
         201,
         "Usuário criado com sucesso.",
         createdUser
       );
-    } catch {
-
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
+  
+      if (imgPath) {
+        try {
+          await fsPromises.unlink(imgPath); // Remove o arquivo em caso de erro
+        } catch (unlinkError) {
+          console.error("Erro ao remover o arquivo:", unlinkError);
+        }
+      }
+  
       return SendResponse.error(res, 500, "Erro interno do servidor.");
     }
   }
@@ -60,6 +75,7 @@ export class UserController {
       });
 
       const { password: _, ...userLogin } = user;
+      userLogin.img = `http://localhost:${process.env.PORT}/files/${userLogin.img}`
 
       return SendResponse.authLogin(
         res,
@@ -85,7 +101,7 @@ export class UserController {
   async getUserById(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const user = await userRepository.findOneBy({ id: Number(id) });
+      const user = await userRepository.findOneBy({ id });
       if (!user) {
         return SendResponse.error(res, 404, "Usuário não encontrado.");
       }
@@ -104,7 +120,7 @@ export class UserController {
     const { id } = req.params;
 
     try {
-      const user = await userRepository.findOneBy({ id: Number(id) });
+      const user = await userRepository.findOneBy({ id });
       if (!user) {
         return SendResponse.error(res, 404, "Usuário não encontrado.");
       }
@@ -129,7 +145,7 @@ export class UserController {
     const { id } = req.params;
 
     try {
-      const user = await userRepository.findOneBy({ id: Number(id) });
+      const user = await userRepository.findOneBy({ id });
       if (!user) {
         return SendResponse.error(res, 404, "Usuário não encontrado.");
       }

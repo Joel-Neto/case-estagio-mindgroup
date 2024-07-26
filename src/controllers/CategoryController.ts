@@ -2,6 +2,12 @@ import { Request, Response } from "express";
 import { categoryRepository } from "../repositories/categoryRepository";
 import SendResponse from "../utils/SendResponse";
 
+export interface Category {
+  id: string; // UUID como string
+  nome: string; // Nome da categoria
+  tipo: "receita" | "despesa"; // Tipo da categoria, pode ser 'receita' ou 'despesa'
+}
+
 export class CategoryController {
   async getAllCategories(req: Request, res: Response) {
     try {

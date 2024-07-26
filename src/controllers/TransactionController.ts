@@ -68,7 +68,7 @@ export class TransactionController {
     const { id } = req.params;
     try {
       const transaction = await transactionRepository.findOne({
-        where: { id: Number(id), user: { id: userId } },
+        where: { id, user: { id: userId } },
         relations: ["category"],
       });
 
@@ -95,14 +95,14 @@ export class TransactionController {
     const { idUser, idCategory, ...transaction } = req.body;
 
     try {
-      const user = await userRepository.findOneBy({ id: Number(idUser) });
+      const user = await userRepository.findOneBy({ id: idUser });
 
       if (!user) {
         return SendResponse.error(res, 404, "Usuário não encontrado.");
       }
 
       const category = await categoryRepository.findOneBy({
-        id: Number(idCategory),
+        id: idCategory,
       });
 
       if (!category) {
@@ -144,21 +144,21 @@ export class TransactionController {
 
     try {
       const transaction = await transactionRepository.findOne({
-        where: { id: Number(id), user: { id: userId } },
+        where: { id, user: { id: userId } },
       });
 
       if (!transaction) {
         return SendResponse.error(res, 404, "Transação não encontrada.");
       }
 
-      const user = await userRepository.findOneBy({ id: Number(idUser) });
+      const user = await userRepository.findOneBy({ id: idUser });
 
       if (!user) {
         return SendResponse.error(res, 404, "Usuário não encontrado.");
       }
 
       const category = await categoryRepository.findOneBy({
-        id: Number(idCategory),
+        id: idCategory,
       });
 
       if (!category) {
@@ -195,7 +195,7 @@ export class TransactionController {
 
     try {
       const transaction = await transactionRepository.findOne({
-        where: { id: Number(id), user: { id: userId } },
+        where: { id, user: { id: userId } },
       });
 
       if (!transaction) {

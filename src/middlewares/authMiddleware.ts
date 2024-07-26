@@ -3,7 +3,7 @@ import { userRepository } from "../repositories/userRepository";
 import jwt from "jsonwebtoken";
 
 type JwlPayload = {
-  id: number;
+  id: string;
 };
 
 export async function authMiddleware(

@@ -4,8 +4,8 @@ import { Category } from "./Category";
 
 @Entity("transactions")
 export class Transaction {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({ type: "text", nullable: true })
   description: string;

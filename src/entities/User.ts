@@ -3,8 +3,8 @@ import { Transaction } from "./Transaction";
 
 @Entity("users")
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({ type: "text" })
   name: string;
@@ -14,6 +14,10 @@ export class User {
 
   @Column({ type: "text" })
   password: string;
+
+  // IMG
+  @Column({type: "text", nullable: true})
+  img?: string
 
   @OneToMany(() => Transaction, (transaction) => transaction.user)
   transactions: Transaction[];

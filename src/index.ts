@@ -4,19 +4,28 @@ import { AppDataSource } from "./data-source";
 import transactionRoutes from "./routes/transactionRouter";
 import userRoutes from "./routes/userRouter";
 import categoryRoutes from "./routes/categoryRouter";
+import path from "path";
 
 AppDataSource.initialize().then(() => {
   const app = express();
 
   app.use(express.json());
-  app.use(cors());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(
+    cors({
+      origin: "http://localhost:3000", // Permite solicitações apenas do frontend
+    })
+  );
 
-  app.get("/", (req, res) => {
-    res.send("CHEGOUUUU")
-  })
   app.use("/transactions", transactionRoutes);
   app.use("/users", userRoutes);
   app.use("/categories", categoryRoutes);
 
-  return app.listen(process.env.PORT);
+  const port = process.env.PORT || 3002;
+
+  app.use("/files", express.static(path.join(__dirname, "uploads")));
+
+  return app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+  });
 });

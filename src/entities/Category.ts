@@ -3,8 +3,8 @@ import { Transaction } from "./Transaction";
 
 @Entity("categories")
 export class Category {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column({ type: "text" })
   nome: string;

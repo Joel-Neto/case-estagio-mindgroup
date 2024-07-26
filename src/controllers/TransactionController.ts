@@ -91,6 +91,39 @@ export class TransactionController {
     }
   }
 
+  async getTransactionsByType(req: Request, res: Response) {
+    const { selectedType } = req.params;
+    const userId = req.user?.id;
+
+    try {
+      // Ajustar a consulta para incluir o filtro por tipo e ID do usuário
+      const transactions = await transactionRepository.find({
+        where: {
+          type: selectedType as "receita" | "despesa",
+          user: { id: userId },
+        },
+        relations: ["category"],
+      });
+
+      return SendResponse.success(
+        res,
+        200,
+        `Transações de tipo ${selectedType} encontradas com sucesso.`,
+        transactions
+      );
+    } catch (error) {
+      console.error(
+        `Erro ao buscar transações do tipo ${selectedType}:`,
+        error
+      );
+      return SendResponse.error(
+        res,
+        500,
+        `Erro ao buscar transações do tipo ${selectedType}`
+      );
+    }
+  }
+
   async createTransaction(req: Request, res: Response) {
     const { idUser, idCategory, ...transaction } = req.body;
 

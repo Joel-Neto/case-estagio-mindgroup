@@ -21,7 +21,7 @@ AppDataSource.initialize().then(() => {
   app.use("/users", userRoutes);
   app.use("/categories", categoryRoutes);
 
-  const port = process.env.PORT || 3002;
+  const port = process.env.PORT;
 
   app.use("/files", express.static(path.join(__dirname, "uploads")));
 

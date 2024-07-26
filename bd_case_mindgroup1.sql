@@ -24,37 +24,37 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
   `nome` text NOT NULL,
-  `tipo` varchar(255) NOT NULL
+  `tipo` varchar(255) NOT NULL,
+  `id` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `categories`
 --
 
-INSERT INTO `categories` (`id`, `nome`, `tipo`) VALUES
-(1, 'Alimentação', 'despesa'),
-(2, 'Moradia', 'despesa'),
-(3, 'Transporte', 'despesa'),
-(4, 'Saúde', 'despesa'),
-(5, 'Educação', 'despesa'),
-(6, 'Lazer', 'despesa'),
-(7, 'Roupas e Acessórios', 'despesa'),
-(8, 'Impostos', 'despesa'),
-(9, 'Serviços', 'despesa'),
-(10, 'Dívidas e Empréstimos', 'despesa'),
-(11, 'Outros', 'despesa'),
-(12, 'Salário', 'receita'),
-(13, 'Rendimentos de Investimentos', 'receita'),
-(14, 'Vendas', 'receita'),
-(15, 'Aluguéis', 'receita'),
-(16, 'Freelancer/Consultoria', 'receita'),
-(17, 'Bônus/Comissões', 'receita'),
-(18, 'Doações', 'receita'),
-(19, 'Reembolsos', 'receita'),
-(20, 'Prêmios', 'receita'),
-(21, 'Outros', 'receita');
+INSERT INTO `categories` (`nome`, `tipo`, `id`) VALUES
+('Serviços', 'despesa', '06773dd3-dec1-49c5-a711-736d4639c758'),
+('Roupas e Acessórios', 'despesa', '0f5a8e5d-3b31-43ff-993c-793c50c69007'),
+('Vendas', 'receita', '19eb5b6f-8f92-4cf0-9b71-97cd99f3d861'),
+('Moradia', 'despesa', '29f7a22b-083a-4b5d-9fd2-4ce71c07ebfa'),
+('Outros', 'receita', '2a9a268f-36d6-4e76-876f-518b738e135f'),
+('Impostos', 'despesa', '3f00adb3-2ae6-43f3-9235-85fd3eb47fd5'),
+('Doações', 'receita', '4ae8cb34-98ba-457b-9b53-1365dc78fa07'),
+('Dívidas e Empréstimos', 'despesa', '62248440-597c-4c50-9a59-0e7c9ba4842f'),
+('Alimentação', 'despesa', '65347504-ab8a-4b22-bef1-ea786a7f40c1'),
+('Reembolsos', 'receita', '6b8a226f-a0e8-43ab-8ccf-72b0ff501ab5'),
+('Bônus/Comissões', 'receita', '787007e9-cd7f-4aaf-a284-ae8cbad81056'),
+('Freelancer/Consultoria', 'receita', '86157098-87f3-466f-9866-9b0d34d7da21'),
+('Lazer', 'despesa', 'b0fc5089-97d7-4015-9b09-8500a443fd96'),
+('Outros', 'despesa', 'bbfef8eb-91a3-48ae-90f7-8ae29cd02d7b'),
+('Educação', 'despesa', 'bee738f4-e172-4f02-8124-06f430ede782'),
+('Rendimentos de Investimentos', 'receita', 'c08f6ade-d030-4cb8-a2d8-69970fba0063'),
+('Saúde', 'despesa', 'e0492eab-840e-4073-8ed4-7976bc738bb0'),
+('Prêmios', 'receita', 'e1c096ad-0978-47e1-b6a5-996de130afc6'),
+('Transporte', 'despesa', 'ec14e80f-8785-4298-b21c-be2e9c0b1a44'),
+('Aluguéis', 'receita', 'ed664929-11ed-462c-9cc9-193598e8188a'),
+('Salário', 'receita', 'f4dd34a1-7c16-4dad-93ce-67f70b0aa9c6');
 
 -- --------------------------------------------------------
 
@@ -76,7 +76,10 @@ INSERT INTO `migrations` (`id`, `timestamp`, `name`) VALUES
 (1, 1721679896442, 'Default1721679896442'),
 (2, 1721680058481, 'Default1721680058481'),
 (3, 1721680130064, 'Default1721680130064'),
-(4, 1721680411616, 'Default1721680411616');
+(4, 1721680411616, 'Default1721680411616'),
+(5, 1721934714491, 'Default1721934714491'),
+(6, 1721935221539, 'Default1721935221539'),
+(7, 1721942587606, 'Default1721942587606');
 
 -- --------------------------------------------------------
 
@@ -85,24 +88,24 @@ INSERT INTO `migrations` (`id`, `timestamp`, `name`) VALUES
 --
 
 CREATE TABLE `transactions` (
-  `id` int(11) NOT NULL,
   `description` text DEFAULT NULL,
   `amount` decimal(10,2) NOT NULL,
   `type` varchar(255) NOT NULL,
   `date` date NOT NULL,
-  `userId` int(11) DEFAULT NULL,
-  `categoryId` int(11) DEFAULT NULL
+  `id` varchar(36) NOT NULL,
+  `userId` varchar(36) DEFAULT NULL,
+  `categoryId` varchar(36) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `transactions`
 --
 
-INSERT INTO `transactions` (`id`, `description`, `amount`, `type`, `date`, `userId`, `categoryId`) VALUES
-(3, 'Salário', 1000.00, 'receita', '2024-08-05', 3, 12),
-(5, 'Viagem', 830.00, 'despesa', '2024-08-03', 3, 6),
-(6, 'Shopping com a Família', 600.00, 'despesa', '2024-07-25', 3, 6),
-(7, 'Bolsa monitoria', 307.00, 'receita', '2024-07-27', 3, 12);
+INSERT INTO `transactions` (`description`, `amount`, `type`, `date`, `id`, `userId`, `categoryId`) VALUES
+('Jantar', 200.00, 'despesa', '2024-07-19', '2cdd1242-0459-4ce0-8a09-63f4fba0cd5f', 'e7233961-32d0-463a-b580-04935c0f04fe', '65347504-ab8a-4b22-bef1-ea786a7f40c1'),
+('Shopping', 120.00, 'despesa', '2024-07-12', '433582c6-450a-445f-bf6c-e7a3c04bf2ac', 'e7233961-32d0-463a-b580-04935c0f04fe', '0f5a8e5d-3b31-43ff-993c-793c50c69007'),
+('Salário', 600.00, 'receita', '2024-07-05', '6fbb9b67-aedf-4fc2-afc3-310fba2009aa', 'e7233961-32d0-463a-b580-04935c0f04fe', 'f4dd34a1-7c16-4dad-93ce-67f70b0aa9c6'),
+('Salário', 400.00, 'receita', '2024-07-20', 'da4e876e-8320-434d-8f4b-86e8845e509a', 'e7233961-32d0-463a-b580-04935c0f04fe', 'f4dd34a1-7c16-4dad-93ce-67f70b0aa9c6');
 
 -- --------------------------------------------------------
 
@@ -111,20 +114,19 @@ INSERT INTO `transactions` (`id`, `description`, `amount`, `type`, `date`, `user
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
   `name` text NOT NULL,
   `email` text NOT NULL,
-  `password` text NOT NULL
+  `password` text NOT NULL,
+  `img` text DEFAULT NULL,
+  `id` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`) VALUES
-(3, 'Joel de Farias Alves Neto', 'joelalves@email.com', '$2b$10$o4FT52Wf1TYywPDhWJCq3OrIoGHO4EajSEvcbxBnSpDTMMc/ncGa2'),
-(4, 'João', 'joao@email.com', '$2b$10$42Ubr90nFO4xlyqLgiBRhOp4TpAwi.wOwF4x6mZ6PbV7bTQTi7pK2'),
-(6, 'John Doe', 'john@email.com', '$2b$10$xAMmVqS7jVyuAddteM7StuisxJ8HokiIUs5.KIXWrS4pkF5mliBq6');
+INSERT INTO `users` (`name`, `email`, `password`, `img`, `id`) VALUES
+('Joel', 'joel@email.com', '$2b$10$uoX63ncqnKx1I0ZwhTAR/uizzEjljX2QTVv9ndyHfTnW/1XV9Q3RG', '1722034481752_homem.png', 'e7233961-32d0-463a-b580-04935c0f04fe');
 
 --
 -- Índices para tabelas despejadas
@@ -162,28 +164,10 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT de tabela `categories`
---
-ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
---
 -- AUTO_INCREMENT de tabela `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de tabela `transactions`
---
-ALTER TABLE `transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT de tabela `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restrições para tabelas despejadas
